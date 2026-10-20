@@ -121,6 +121,12 @@ start.bat      启动已构建的应用
 
 **词典下载很慢/失败？**
 手动下载 [ecdict-sqlite-28.zip](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)，解压出 `stardict.db` 放到 `data\stardict.db`，再重新运行 `setup.bat`。
+也可以设置 `ES_ECDICT_URL` 指向可访问的镜像 zip（脚本同样会解压并校验 `stardict` 表）后重跑 `setup.bat`：
+
+```bat
+set ES_ECDICT_URL=https://your-mirror/ecdict-sqlite-28.zip
+setup.bat
+```
 
 **Electron 运行时下载失败？**
 `setup.bat` 默认使用 `https://npmmirror.com/mirrors/electron/` 镜像；如果仍失败，可先设置可用的 `ELECTRON_MIRROR` 再运行。
