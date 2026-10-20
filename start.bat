@@ -1,5 +1,7 @@
 @echo off
 setlocal
+set "ELECTRON_RUN_AS_NODE="
+if not defined ELECTRON_MIRROR set "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/"
 cd /d "%~dp0"
 
 if not exist "out\main\index.js" (

@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
-    "start": "electron-vite preview",
+    "start": "electron .",
     "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {

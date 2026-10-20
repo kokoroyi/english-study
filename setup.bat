@@ -2,6 +2,10 @@
 setlocal EnableExtensions
 cd /d "%~dp0"
 
+rem Electron runtime is downloaded from a China-friendly mirror by default.
+rem If you already have a local mirror, set ELECTRON_MIRROR before running this file.
+if not defined ELECTRON_MIRROR set "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/"
+
 set "AUTO=0"
 if /I "%~1"=="--auto" set "AUTO=1"
 
@@ -19,7 +23,7 @@ node -e "const v=process.versions.node.split('.').map(Number);process.exit(v[0]>
 if errorlevel 1 goto :old_node
 
 if not exist "node_modules\electron\package.json" (
-  echo [1/3] Installing dependencies ^(npm ci^)...
+  echo [1/4] Installing npm dependencies ^(npm ci^)...
   call npm ci --no-audit --no-fund
   if errorlevel 1 (
     echo [warn] npm ci failed, retrying with npm install...
@@ -27,23 +31,35 @@ if not exist "node_modules\electron\package.json" (
     if errorlevel 1 goto :npm_failed
   )
 ) else (
-  echo [1/3] Dependencies already installed.
+  echo [1/4] Dependencies already installed.
+)
+
+if not exist "node_modules\electron\dist\electron.exe" (
+  echo [2/4] Downloading Electron runtime ^(~120 MB^)...
+  node "%~dp0node_modules\electron\install.js"
+  if errorlevel 1 goto :electron_failed
+) else (
+  echo [2/4] Electron runtime already installed.
 )
 
 if not exist "data\stardict.db" (
-  echo [2/3] Downloading ECDICT dictionary ^(~207 MB, first run only^)...
+  echo [3/4] Downloading ECDICT dictionary ^(~207 MB, first run only^)...
   powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\setup-dict.ps1"
   if errorlevel 1 goto :dict_failed
 ) else (
-  echo [2/3] Dictionary already present.
+  echo [3/4] Dictionary already present.
 )
 
+echo [check] Verifying dictionary...
+node "%~dp0tools\verify-dict.mjs" "%~dp0data\stardict.db"
+if errorlevel 1 goto :dict_failed
+
 if not exist "out\main\index.js" (
-  echo [3/3] Building application...
+  echo [4/4] Building application...
   call npm run build
   if errorlevel 1 goto :build_failed
 ) else (
-  echo [3/3] Build already present.
+  echo [4/4] Build already present.
 )
 
 echo.
@@ -69,6 +85,10 @@ goto :fail
 :npm_failed
 echo [ERROR] Failed to install npm dependencies.
 echo Check your network or proxy, then run setup.bat again.
+goto :fail
+:electron_failed
+echo [ERROR] Failed to download the Electron runtime.
+echo Check your network/proxy, then run setup.bat again.
 goto :fail
 :dict_failed
 echo [ERROR] Failed to download or verify the ECDICT dictionary.

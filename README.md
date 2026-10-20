@@ -46,23 +46,26 @@ Electron + Vue 3 + SQLite，所有学习数据保存在本机；AI 通过任意 
 
 - Windows 10 / 11
 - Node.js **22.12+**（推荐 22 LTS；安装时保持「Add to PATH」勾选）
-- 首次安装需联网；磁盘预留约 2GB（依赖 + 词典解压后）
+- 首次安装需联网；磁盘预留约 2GB（依赖 + Electron 运行时 + 词典解压后）
 
 ### 一键安装
 
 1. 安装 [Node.js](https://nodejs.org/) 22 LTS 或更新版本。
 2. 双击项目根目录的 **`setup.bat`**。它会自动：
    - 安装 npm 依赖；
+   - 下载 Electron 运行时（约 120MB，默认走国内镜像 `npmmirror`）；
    - 下载 ECDICT 词典（约 207MB，解压后约 800MB）并放到 `data/stardict.db`；
    - 校验词典并构建应用。
 3. 双击 **`start.bat`** 启动。
 
-首次安装视网络情况需要几分钟；安装完成后以后直接双击 `start.bat` 即可。
+首次安装视网络情况约需 5–15 分钟（依赖 + 运行时 + 207MB 词典下载 + 解压/构建）；完成后以后直接双击 `start.bat` 即可。
+若你已有 Electron 镜像/代理，可在运行前设置环境变量 `ELECTRON_MIRROR` 覆盖默认镜像。
 
 ### 手动安装（或脚本失败时）
 
 ```bat
 npm ci
+node node_modules\electron\install.js   :: 下载 Electron 运行时(已装可跳过)
 :: 下载 https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip
 :: 解压出 stardict.db，放到 data\stardict.db
 npm run build
@@ -107,7 +110,7 @@ src/
   preload/     contextBridge 安全桥接
   renderer/    Vue 3 界面（阅读、工作区、语法本、词库、控制台、设置）
 tools/         setup.bat 使用的词典下载/校验脚本
-setup.bat      一键安装：依赖 + 词典 + 构建
+setup.bat      一键安装：依赖 + Electron 运行时 + 词典 + 构建
 start.bat      启动已构建的应用
 ```
 
@@ -118,6 +121,11 @@ start.bat      启动已构建的应用
 
 **词典下载很慢/失败？**
 手动下载 [ecdict-sqlite-28.zip](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)，解压出 `stardict.db` 放到 `data\stardict.db`，再重新运行 `setup.bat`。
+
+**Electron 运行时下载失败？**
+`setup.bat` 默认使用 `https://npmmirror.com/mirrors/electron/` 镜像；如果仍失败，可先设置可用的 `ELECTRON_MIRROR` 再运行。
+也可以在有网络的机器上下载 Electron 43.3.0 的 `electron-v43.3.0-win32-x64.zip`，放到
+`%LOCALAPPDATA%\electron\Cache\` 对应目录后重试。
 
 **提示 Node.js 版本过低？**
 升级到 Node.js 22.12+（推荐 LTS），重新打开命令行后重试。
