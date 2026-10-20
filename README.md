@@ -5,9 +5,7 @@ Electron + Vue 3 + SQLite，所有学习数据保存在本机；AI 通过任意 
 
 > 个人项目，按自己的学习习惯打磨，不追求通用产品形态。
 
-<!-- 发布到 GitHub 后，把 <YOUR_GITHUB_USERNAME> 替换为你的用户名，即可启用徽章：
-[![GitHub](https://img.shields.io/badge/GitHub-english--study-181717?logo=github)](https://github.com/<YOUR_GITHUB_USERNAME>/english-study)
--->
+[![GitHub](https://img.shields.io/badge/GitHub-english--study-181717?logo=github)](https://github.com/keithaldana31-rgb/english-study)
 
 ## 截图
 
@@ -157,14 +155,6 @@ npm start        :: 启动构建产物
 
 ## 许可证与致谢
 
-- 代码：MIT，见 [LICENSE](LICENSE)（发布前请替换 `<YEAR>` / `<COPYRIGHT HOLDER>` 占位符）。
+- 代码：MIT，见 [LICENSE](LICENSE)。
 - 字体：Plus Jakarta Sans（SIL OFL 1.1）；词典：ECDICT（MIT）；详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 - 仿生阅读/语义高亮为独立实现，参考公开的阅读辅助思路，不隶属于任何第三方阅读插件。
-
-## 发布前需要替换的占位符
-
-| 位置 | 占位符 | 说明 |
-|---|---|---|
-| `LICENSE` | `<YEAR>` / `<COPYRIGHT HOLDER>` | 年份与版权人 |
-| `package.json` | `<YOUR NAME>` | 作者名 |
-| `README.md` | `<YOUR_GITHUB_USERNAME>` | GitHub 用户名（徽章/链接） |
