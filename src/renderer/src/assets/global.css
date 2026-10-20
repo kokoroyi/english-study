@@ -1,0 +1,218 @@
+/* 补充项目级样式, 复用 calm-admin-tokens 变量 */
+html, body, #app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+* { box-sizing: border-box; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--ca-line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ca-ink-3); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* v-tip 项目风格悬浮提示(替代原生 title 的系统黑色样式) */
+.app-tip {
+  position: fixed;
+  z-index: 4000;
+  pointer-events: none;
+  max-width: 260px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--ca-surface);
+  border: 1px solid var(--ca-line);
+  box-shadow: var(--ca-shadow-float);
+  color: var(--ca-ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.ca-page {
+  padding: 20px 24px;
+  max-width: var(--ca-page-max);
+}
+
+.ca-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+
+.ca-page-title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+}
+
+.ca-page-desc {
+  margin: 4px 0 0;
+  color: var(--ca-ink-3);
+  font-size: 13px;
+}
+
+/* KPI 卡 */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+.kpi-icon-box {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--ca-primary-soft);
+  color: var(--ca-primary);
+}
+
+.kpi-icon-box .icon { width: 18px; height: 18px; }
+
+.kpi-body { min-width: 0; }
+
+.kpi-value {
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ca-ink);
+}
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--ca-ink-3);
+  font-weight: 500;
+}
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--ca-ink-3);
+}
+
+/* 双列布局 */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-main-side { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+/* 通用工具 */
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+.mb-3 { margin-bottom: 12px; }
+.muted { color: var(--ca-ink-3); }
+.ca-tabular { font-variant-numeric: tabular-nums; }
+
+.text-right { text-align: right; }
+.flex { display: flex; align-items: center; gap: 8px; }
+.flex-1 { flex: 1; }
+.w-full { width: 100%; }
+
+/* 表单控件 */
+.ca-input, .ca-select, .ca-textarea {
+  min-height: var(--ca-control-height);
+  padding: 0 10px;
+  border: 1px solid var(--ca-line);
+  border-radius: var(--ca-radius-control);
+  background: var(--ca-surface);
+  color: var(--ca-ink);
+  font-size: 13px;
+  outline: none;
+}
+
+.ca-input:focus, .ca-select:focus, .ca-textarea:focus {
+  border-color: var(--ca-primary);
+  box-shadow: var(--ca-focus);
+}
+
+.ca-textarea { padding: 8px 10px; resize: vertical; line-height: 1.6; }
+
+.ca-input::placeholder, .ca-textarea::placeholder { color: var(--ca-ink-3); }
+
+/* 卡片 */
+.ca-card { background: var(--ca-surface); border: 1px solid var(--ca-line); border-radius: var(--ca-radius-card); box-shadow: var(--ca-shadow-card); }
+.ca-card-pad { padding: 16px; }
+
+/* 空状态 / 加载 / 错误 */
+.ca-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--ca-ink-3);
+  font-size: 13px;
+}
+
+/* ---- 页面切换过渡(交叉淡入淡出) ----
+   leave 必须真实非零时长(transitionend 是移除时机), transition:none 会导致旧页永久卡在 DOM 里堆叠 */
+.page-enter-active {
+  transition: opacity 180ms var(--ca-ease), transform 180ms var(--ca-ease);
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-leave-active {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none; /* 淡出中的旧页不拦截点击 */
+  transition: opacity 80ms var(--ca-ease);
+}
+.page-leave-to {
+  opacity: 0;
+}
+
+/* ---- 卡片 hover 上浮 ---- */
+.ca-card.lift {
+  transition: transform var(--ca-duration-base) var(--ca-ease), box-shadow var(--ca-duration-base) var(--ca-ease);
+}
+.ca-card.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ca-shadow-float);
+}
+
+/* ---- KPI 数字动画 ---- */
+.kpi-value {
+  animation: kpi-in 0.4s var(--ca-ease);
+}
+@keyframes kpi-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- 按钮按压反馈 ---- */
+.ca-btn:active {
+  transform: scale(0.98);
+}
+
+/* ---- 徽标脉冲(实时状态) ---- */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* ---- 淡入 ---- */
+.fade-in { animation: fade-in 0.3s var(--ca-ease); }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-value, .fade-in { animation: none; }
+  /* 页面过渡不能置为 none: Vue 依赖 transitionend 移除旧页, none 会导致旧页永久堆叠 */
+  .page-enter-active, .page-leave-active { transition-duration: 1ms; }
+}
