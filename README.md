@@ -3,9 +3,11 @@
 一个 Windows 桌面端的个人英语学习工具：把「读文章 → 划生词 → 句子解析 → 间隔复习 → AI 提问」串成一条本地工作流。
 Electron + Vue 3 + SQLite，所有学习数据保存在本机；AI 通过任意 OpenAI 兼容接口接入。
 
+**本项目主要是 Vibe Coding 的产物**，在 DeepSeek 的辅助下实现。
+
 > 个人项目，按自己的学习习惯打磨，不追求通用产品形态。
 
-[![GitHub](https://img.shields.io/badge/GitHub-english--study-181717?logo=github)](https://github.com/keithaldana31-rgb/english-study)
+[![GitHub](https://img.shields.io/badge/GitHub-english--study-181717?logo=github)](https://github.com/kokoroyi/english-study)
 
 ## 截图
 
